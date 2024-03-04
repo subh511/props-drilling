@@ -1,4 +1,4 @@
-import { RecoilRoot, useRecoilValue, useRecoilState } from "recoil";
+import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
 import { countAtom } from "./Components/store/atoms/Count";
 function App() {
   //wrap anyone that wants to use the teleported value inside a provider;
@@ -12,6 +12,7 @@ function App() {
 }
 
 function Count() {
+  console.log("re-rendered")
   return (
     <div>
       <CountRenderer />
@@ -25,11 +26,12 @@ function CountRenderer() {
 }
 
 function Button() {
-  const [count, setCount] = useRecoilState(countAtom);
+  //const [count, setCount] = useRecoilState(countAtom);
+  const setCount = useSetRecoilState(countAtom)
   return (
     <div>
-      <button onClick={() => setCount(count + 1)}>increase</button>
-      <button onClick={() => setCount(count - 1)}>decrease</button>
+      <button onClick={() => setCount(count => count + 1)}>increase</button>
+      <button onClick={() => setCount(count => count - 1)}>decrease</button>
     </div>
   );
 }
