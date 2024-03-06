@@ -1,5 +1,5 @@
 import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
-import { countAtom } from "./Components/store/atoms/Count";
+import { countAtom, evenSelector } from "./Components/store/atoms/Count";
 function App() {
   //wrap anyone that wants to use the teleported value inside a provider;
   return (
@@ -12,41 +12,39 @@ function App() {
 }
 
 function Count() {
-  console.log("re-rendered")
+  console.log("re-rendered");
   return (
     <div>
       <CountRenderer />
       <Button />
-      <EvenCountRenderer/>
+      <EvenCountRenderer />
     </div>
   );
 }
 function CountRenderer() {
   const count = useRecoilValue(countAtom);
-  return(
+  return (
     <div>
-    <b>
-    {count}
-    </b>
+      <b>{count}</b>
     </div>
   );
 }
 
-function EvenCountRenderer(){
-  const count = useRecoilValue(countAtom); 
-  return(
+function EvenCountRenderer() {
+  const isEven = useRecoilValue(evenSelector);
+  return (
     <div>
-    {(count % 2 == 0) ? "it is even" : null }
-    </div>
+    {isEven % 2 == 0 ? "it is even" : null}
+    </div> 
   )
 }
 function Button() {
   //const [count, setCount] = useRecoilState(countAtom);
-  const setCount = useSetRecoilState(countAtom)
+  const setCount = useSetRecoilState(countAtom);
   return (
     <div>
-      <button onClick={() => setCount(count => count + 1)}>increase</button>
-      <button onClick={() => setCount(count => count - 1)}>decrease</button>
+      <button onClick={() => setCount((count) => count + 1)}>increase</button>
+      <button onClick={() => setCount((count) => count - 1)}>decrease</button>
     </div>
   );
 }
